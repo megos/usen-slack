@@ -3,7 +3,8 @@ const request = require('request');
 
 const date = new Date().getTime();
 
-const slackWebhookUrl  = 'your webhook url';
+const interval         = 1000 * 60;
+const slackWebhookUrl  = 'your slack url';
 const slackBotUserName = 'usen-bot';
 
 const param = {
@@ -13,17 +14,27 @@ const param = {
   _     : date
 };
 
-client.fetch('http://music.usen.com/usencms/search_nowplay1.php', param)
-.then((result) => {
-  return result.$('.np-now li').text();
-})
-.then((np) => {
-  const options = {
-    url : slackWebhookUrl,
-    form: 'payload={"text": "' + np + '", "username": "' + slackBotUserName + '"}',
-    json: true
-  }
-  request.post(options, (error, res, body) => {
-    console.log(body);
+let nowPlaying = '';
+
+const postUsenNowPlaying = () => {
+  client.fetch('http://music.usen.com/usencms/search_nowplay1.php', param)
+  .then((result) => {
+    return result.$('.np-now li').text();
+  })
+  .then((np) => {
+    if (np !== nowPlaying) {
+      const options = {
+        url : slackWebhookUrl,
+        form: 'payload={"text": "' + np + '", "username": "' + slackBotUserName + '"}',
+        json: true
+      };
+      request.post(options, (error, res, body) => {
+        console.log(body);
+        nowPlaying = np;
+      });
+    }
   });
-});
+}
+
+postUsenNowPlaying();
+setInterval(postUsenNowPlaying, interval);
