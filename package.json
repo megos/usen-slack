@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/megos/yusen-slack/issues"
   },
-  "homepage": "https://github.com/megos/yusen-slack#readme"
+  "homepage": "https://github.com/megos/yusen-slack#readme",
+  "dependencies": {
+    "cheerio-httpcli": "^0.6.9"
+  }
 }
