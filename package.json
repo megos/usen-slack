@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/megos/usen-slack#readme",
   "dependencies": {
-    "cheerio-httpcli": "^0.6.9"
+    "cheerio-httpcli": "^0.6.9",
+    "cron": "^1.1.1"
   }
 }

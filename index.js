@@ -1,9 +1,7 @@
 const client  = require('cheerio-httpcli');
 const request = require('request');
+const CronJob = require('cron').CronJob;
 
-const date = new Date().getTime();
-
-const interval         = 1000 * 60;
 const slackWebhookUrl  = 'your slack url';
 const slackBotUserName = 'usen-bot';
 
@@ -11,12 +9,14 @@ const param = {
   npband: 'C',
   npch  : '26',
   nppage: 'yes',
-  _     : date
+  _     : ''
 };
 
 let nowPlaying = '';
 
 const postUsenNowPlaying = () => {
+  param.date = new Date().getTime();
+
   client.fetch('http://music.usen.com/usencms/search_nowplay1.php', param)
   .then((result) => {
     return result.$('.np-now li').text().replace(/[ａ-ｚＡ-Ｚ０-９＝！＄＋＊％＆]/g, (s) => {
@@ -38,5 +38,11 @@ const postUsenNowPlaying = () => {
   });
 }
 
-postUsenNowPlaying();
-setInterval(postUsenNowPlaying, interval);
+const job = new CronJob({
+  cronTime: '12 */1 * * * *',
+  onTick  : () => {postUsenNowPlaying()},
+  start   : true,
+  timeZone: 'Asia/Tokyo'
+});
+
+job.start();
