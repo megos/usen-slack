@@ -19,9 +19,9 @@ let nowPlaying = '';
 const postUsenNowPlaying = () => {
   client.fetch('http://music.usen.com/usencms/search_nowplay1.php', param)
   .then((result) => {
-    return result.$('.np-now li').text().replace(/[ａ-ｚＡ-Ｚ０-９]/g, (s) => {
+    return result.$('.np-now li').text().replace(/[ａ-ｚＡ-Ｚ０-９＝！＄＋＊％＆]/g, (s) => {
       return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-    });
+    }).replace(/　/g, ' ');
   })
   .then((np) => {
     if (np !== nowPlaying) {
