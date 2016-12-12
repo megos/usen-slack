@@ -46,3 +46,26 @@ const job = new CronJob({
 });
 
 job.start();
+
+
+const express    = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser());
+app.listen(3000);
+
+app.post('/', (req, res) => {
+  param.npband = req.body.band.toUpperCase();
+  param.npch   = ('00' + req.body.ch).slice(-2);
+
+  client.fetch('http://music.usen.com/channel/' + param.npband + param.npch + '/')
+  .then((result) => {
+    return result.$('.detail-title > h2').text();
+  })
+  .then((result) => {
+    postUsenNowPlaying();
+    res.send(result);
+  });
+});
