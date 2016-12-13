@@ -22,13 +22,12 @@ job.start();
 app.use(bodyParser());
 app.listen(3000);
 
-app.post('/', (req, res) => {
-  usen.setBand(req.body.band.toUpperCase());
-  usen.setChannel(('00' + req.body.ch).slice(-2));
+app.post('/usen', (req, res) => {
+  usen.setBand(req.body.text.slice(0, 1).toUpperCase());
+  usen.setChannel(('00' + req.body.text.slice(1)).slice(-2));
 
-  client.fetch('http://music.usen.com/channel/' + req.body.band.toLowerCase() + usen.getChannel() + '/')
-  .then((result) => {
-    usen.postNowPlaying();
-    res.send(result.$('.detail-title > h2').text());
-  });
+  usen.getChannelTitle();
+  usen.postNowPlaying();
+  res.contentType('application/json');
+  res.send('{"text": "OK"}');
 });

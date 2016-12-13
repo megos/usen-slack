@@ -67,7 +67,21 @@ Usen.prototype = {
     client.fetch('http://music.usen.com/channel/' + this.param.npband + this.param.npch + '/')
     .then((result) => {
       return result.$('.detail-title > h2').text();
-    });
+    })
+    .then((title) => {
+      const form = {
+        text    : title,
+        username: this.botName
+      };
+      const options = {
+        url : this.webhookUrl,
+        form: 'payload=' + JSON.stringify(form),
+        json: true
+      };
+      request.post(options, (error, res, body) => {
+        console.log(body);
+      });
+    })
   }
 }
 
