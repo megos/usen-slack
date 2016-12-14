@@ -10,14 +10,15 @@ const usen = new Usen();
 const app  = express();
 
 const job = new CronJob({
-  cronTime: '12 */1 * * * *',
+  cronTime: '12 */1 8-17 * * 1-5',
   onTick  : () => {usen.postNowPlaying();},
   start   : true,
   timeZone: 'Asia/Tokyo'
 });
 
 job.start();
-
+usen.getChannelTitle();
+usen.postNowPlaying();
 
 app.use(bodyParser());
 app.listen(3000);
@@ -30,4 +31,12 @@ app.post('/usen', (req, res) => {
   usen.postNowPlaying();
   res.contentType('application/json');
   res.send('{"text": "OK"}');
+});
+
+app.get('/usen/now', (req, res) => {
+  res.send(usen.getNowPlaying());
+});
+
+app.get('/usen/channel', (req, res) => {
+  res.send(usen.getChannelName());
 });

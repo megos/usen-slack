@@ -11,9 +11,10 @@ const Usen = function() {
     nppage: 'yes',
     _     : ''
   };
-  this.nowPlaying = '';
-  this.botName    = 'usen-bot';
-  this.webhookUrl = '';
+  this.nowPlaying  = '';
+  this.botName     = 'usen-bot';
+  this.webhookUrl  = '';
+  this.channelName = '';
 };
 
 Usen.prototype = {
@@ -32,7 +33,7 @@ Usen.prototype = {
       if (np !== this.nowPlaying) {
         const form = {
           text    : np,
-          username: this.botName
+          username: this.channelName
         };
         const options = {
           url : this.webhookUrl,
@@ -63,12 +64,21 @@ Usen.prototype = {
     return this.param.npch;
   },
 
+  getNowPlaying: function() {
+    return this.nowPlaying;
+  },
+
+  getChannelName: function() {
+    return this.channelName;
+  },
+
   getChannelTitle: function() {
     client.fetch('http://music.usen.com/channel/' + this.param.npband + this.param.npch + '/')
     .then((result) => {
       return result.$('.detail-title > h2').text();
     })
     .then((title) => {
+      this.channelName = title;
       const form = {
         text    : title,
         username: this.botName
