@@ -3,7 +3,9 @@
 const client   = require('cheerio-httpcli');
 const request  = require('request');
 const settings = require('./settings');
+const Post     = require('./post');
 
+const post = new Post();
 
 const Usen = function() {
   this.param = {
@@ -32,19 +34,8 @@ Usen.prototype = {
     })
     .then((np) => {
       if (np !== this.nowPlaying) {
-        const form = {
-          text    : encodeURIComponent(np),
-          username: this.channelName
-        };
-        const options = {
-          url : this.webhookUrl,
-          form: 'payload=' + JSON.stringify(form),
-          json: true
-        };
-        request.post(options, (error, res, body) => {
-          console.log(body);
-          this.nowPlaying = np;
-        });
+        post.message(this.webhookUrl, np, this.botName);
+        this.nowPlaying = np;
       }
     });
   },
@@ -80,19 +71,9 @@ Usen.prototype = {
     })
     .then((title) => {
       this.channelName = title;
-      const form = {
-        text    : title,
-        username: this.botName
-      };
-      const options = {
-        url : this.webhookUrl,
-        form: 'payload=' + JSON.stringify(form),
-        json: true
-      };
-      request.post(options, (error, res, body) => {
-        console.log(body);
-      });
-    })
+      console.log(title);
+      post.message(this.webhookUrl, title, this.botName);
+    });
   }
 }
 
