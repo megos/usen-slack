@@ -33,7 +33,7 @@ Usen.prototype = {
     .then((np) => {
       if (np !== this.nowPlaying) {
         const form = {
-          text    : np,
+          text    : encodeURIComponent(np),
           username: this.channelName
         };
         const options = {
