@@ -1,7 +1,8 @@
 'use strict'
 
-const client  = require('cheerio-httpcli');
-const request = require('request');
+const client   = require('cheerio-httpcli');
+const request  = require('request');
+const settings = require('./settings');
 
 
 const Usen = function() {
@@ -12,8 +13,8 @@ const Usen = function() {
     _     : ''
   };
   this.nowPlaying  = '';
-  this.botName     = 'usen-bot';
-  this.webhookUrl  = '';
+  this.botName     = settings.BOT_NAME;
+  this.webhookUrl  = settings.WEB_HOOK_URL;
   this.channelName = '';
 };
 

@@ -4,6 +4,8 @@ logs
 *.log
 npm-debug.log*
 
+settings.js
+
 # Runtime data
 pids
 *.pid
