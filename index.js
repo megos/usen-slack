@@ -1,42 +1,42 @@
-const client  = require('cheerio-httpcli');
-const request = require('request');
+'use strict'
 
-const date = new Date().getTime();
+const client     = require('cheerio-httpcli');
+const CronJob    = require('cron').CronJob;
+const express    = require('express');
+const bodyParser = require('body-parser');
+const Usen       = require('./usen');
 
-const interval         = 1000 * 60;
-const slackWebhookUrl  = 'your slack url';
-const slackBotUserName = 'usen-bot';
+const usen = new Usen();
+const app  = express();
 
-const param = {
-  npband: 'C',
-  npch  : '26',
-  nppage: 'yes',
-  _     : date
-};
+const job = new CronJob({
+  cronTime: '12 */1 8-17 * * 1-5',
+  onTick  : () => {usen.postNowPlaying();},
+  start   : true,
+  timeZone: 'Asia/Tokyo'
+});
 
-let nowPlaying = '';
+job.start();
+usen.getChannelTitle();
+usen.postNowPlaying();
 
-const postUsenNowPlaying = () => {
-  client.fetch('http://music.usen.com/usencms/search_nowplay1.php', param)
-  .then((result) => {
-    return result.$('.np-now li').text().replace(/[ａ-ｚＡ-Ｚ０-９]/g, (s) => {
-      return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-    });
-  })
-  .then((np) => {
-    if (np !== nowPlaying) {
-      const options = {
-        url : slackWebhookUrl,
-        form: 'payload={"text": "' + np + '", "username": "' + slackBotUserName + '"}',
-        json: true
-      };
-      request.post(options, (error, res, body) => {
-        console.log(body);
-        nowPlaying = np;
-      });
-    }
-  });
-}
+app.use(bodyParser());
+app.listen(3000);
 
-postUsenNowPlaying();
-setInterval(postUsenNowPlaying, interval);
+app.post('/usen', (req, res) => {
+  usen.setBand(req.body.text.slice(0, 1).toUpperCase());
+  usen.setChannel(('00' + req.body.text.slice(1)).slice(-2));
+
+  usen.getChannelTitle();
+  usen.postNowPlaying();
+  res.contentType('application/json');
+  res.send('{"text": "OK"}');
+});
+
+app.get('/usen/now', (req, res) => {
+  res.send(usen.getNowPlaying());
+});
+
+app.get('/usen/channel', (req, res) => {
+  res.send(usen.getChannelName());
+});
