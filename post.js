@@ -30,7 +30,7 @@ const Post = {
     const form = {
       username: username,
       attachments: [{
-        text: text,
+        text     : text,
         thumb_url: artworkurl
       }]
     };
