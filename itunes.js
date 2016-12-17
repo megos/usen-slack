@@ -38,7 +38,7 @@ const itunesApi = {
   },
 
   setTerm: function(term) {
-    options.qs.term = encodeURIComponent(term).replace(/%20/g, '+');
+    options.qs.term = term;
   }
 }
 
