@@ -33,17 +33,16 @@ Usen.prototype = {
     })
     .then((np) => {
        if (np !== this.nowPlaying) {
-        np = 'yumegiwa';
         itunes.getArtworkUrl(np.split('／')[0].trim())
         .then((url) => {
           if (url !== '') {
-
+            post.messegeWithAttachment(this.webhookUrl, url, np, this.channelName);
           } else {
-            post.message(this.webhookUrl, np, this.botName);
+            post.message(this.webhookUrl, np, this.channelName);
           }
         })
         .catch(() => {
-          post.message(this.webhookUrl, np, this.botName);
+          post.message(this.webhookUrl, np, this.channelName);
         })
         this.nowPlaying = np;
       }
@@ -83,6 +82,12 @@ Usen.prototype = {
       .then((title) => {
         this.channelName = title;
         post.message(this.webhookUrl, title, this.botName)
+        .then((result) => {
+          resolve();
+        })
+        .catch((err) => {
+          reject();
+        });
       });
     });
   }

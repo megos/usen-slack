@@ -12,13 +12,19 @@ const app  = express();
 const job = new CronJob({
   cronTime: '12 */1 8-17 * * 1-5',
   onTick  : () => {usen.postNowPlaying();},
-  start   : true,
+  start   : false,
   timeZone: 'Asia/Tokyo'
 });
 
 job.start();
-usen.getChannelTitle();
-usen.postNowPlaying();
+
+usen.getChannelTitle()
+.then((result) => {
+  usen.postNowPlaying();
+})
+.catch((err) => {
+  console.log(err);
+});
 
 app.use(bodyParser());
 
@@ -35,8 +41,13 @@ app.post('/usen', (req, res) => {
   usen.setBand(req.body.text.slice(0, 1).toUpperCase());
   usen.setChannel(('00' + req.body.text.slice(1)).slice(-2));
 
-  usen.getChannelTitle();
-  usen.postNowPlaying();
+  usen.getChannelTitle()
+  .then((result) => {
+    usen.postNowPlaying();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
   res.contentType('application/json');
   res.send('{"text": "OK"}');
 });

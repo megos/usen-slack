@@ -1,6 +1,6 @@
 'use strict'
 
-const request = require('request');
+const request = require('request-promise');
 
 const Post = {
 
@@ -14,8 +14,41 @@ const Post = {
       form: 'payload=' + JSON.stringify(form),
       json: true
     };
-    request.post(options, (error, res, body) => {
-      console.log(body);
+    return new Promise((resolve, reject) => {
+      request.post(options)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject();
+      });
+    });
+  },
+
+  messegeWithAttachment: function(url, artworkurl, text, username) {
+    const form = {
+      username: username,
+      attachments: [{
+        text: text,
+        thumb_url: artworkurl
+      }]
+    };
+    const options = {
+      url : url,
+      form: 'payload=' + JSON.stringify(form),
+      json: true
+    };
+    return new Promise((resolve, reject) => {
+      request.post(options)
+      .then((result) => {
+        console.log(result);
+        resolve(result);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject();
+      });
     });
   }
 }
