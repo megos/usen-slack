@@ -4,11 +4,12 @@ const client   = require('cheerio-httpcli');
 const request  = require('request');
 const settings = require('./settings');
 const post     = require('./post');
+const itunes   = require('./itunes');
 
 const Usen = function() {
   this.param = {
-    npband: 'C',
-    npch  : '26',
+    npband: 'A',
+    npch  : '44',
     nppage: 'yes',
     _     : ''
   };
@@ -31,8 +32,19 @@ Usen.prototype = {
       }).replace(/　/g, ' ').replace(/’/g, "'").replace(/－/g, '-');
     })
     .then((np) => {
-      if (np !== this.nowPlaying) {
-        post.message(this.webhookUrl, np, this.botName);
+       if (np !== this.nowPlaying) {
+        np = 'yumegiwa';
+        itunes.getArtworkUrl(np.split('／')[0].trim())
+        .then((url) => {
+          if (url !== '') {
+
+          } else {
+            post.message(this.webhookUrl, np, this.botName);
+          }
+        })
+        .catch(() => {
+          post.message(this.webhookUrl, np, this.botName);
+        })
         this.nowPlaying = np;
       }
     });
@@ -63,14 +75,15 @@ Usen.prototype = {
   },
 
   getChannelTitle: function() {
-    client.fetch('http://music.usen.com/channel/' + this.param.npband + this.param.npch + '/')
-    .then((result) => {
-      return result.$('.detail-title > h2').text();
-    })
-    .then((title) => {
-      this.channelName = title;
-      console.log(title);
-      post.message(this.webhookUrl, title, this.botName);
+    return new Promise((resolve, reject) => {
+      client.fetch('http://music.usen.com/channel/' + this.param.npband + this.param.npch + '/')
+      .then((result) => {
+        return result.$('.detail-title > h2').text();
+      })
+      .then((title) => {
+        this.channelName = title;
+        post.message(this.webhookUrl, title, this.botName)
+      });
     });
   }
 }

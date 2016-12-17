@@ -21,9 +21,17 @@ usen.getChannelTitle();
 usen.postNowPlaying();
 
 app.use(bodyParser());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.listen(3000);
 
 app.post('/usen', (req, res) => {
+  console.log(req.body);
   usen.setBand(req.body.text.slice(0, 1).toUpperCase());
   usen.setChannel(('00' + req.body.text.slice(1)).slice(-2));
 
