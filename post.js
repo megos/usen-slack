@@ -2,9 +2,7 @@
 
 const request = require('request');
 
-const Post = function(){};
-
-Post.prototype = {
+const Post = {
 
   message: function(url, text, username) {
     const form = {

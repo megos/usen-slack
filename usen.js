@@ -3,9 +3,7 @@
 const client   = require('cheerio-httpcli');
 const request  = require('request');
 const settings = require('./settings');
-const Post     = require('./post');
-
-const post = new Post();
+const post     = require('./post');
 
 const Usen = function() {
   this.param = {
