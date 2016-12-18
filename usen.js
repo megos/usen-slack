@@ -27,13 +27,14 @@ Usen.prototype = {
 
     client.fetch('http://music.usen.com/usencms/search_nowplay1.php', this.param)
     .then((result) => {
-      return result.$('.np-now li').text().replace(/[ａ-ｚＡ-Ｚ０-９＝！？＄＋＊％＆，．]/g, (s) => {
+      return result.$('.np-now li').text().replace(/[ａ-ｚＡ-Ｚ０-９＝！？＄＋＊％＆，．（）]/g, (s) => {
         return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
       }).replace(/　/g, ' ').replace(/’/g, "'").replace(/－/g, '-');
     })
     .then((np) => {
        if (np !== this.nowPlaying) {
-        itunes.getArtworkUrl(np.split('／')[0].trim())
+        const info = np.split('／');
+        itunes.getArtworkUrl(info[0].replace(/^\(([0-9]+位|注目曲)\)/, '').trim() + ',' + info[1].trim())
         .then((url) => {
           if (url !== '') {
             post.messegeWithAttachment(this.webhookUrl, url, np, this.channelName);

@@ -9,8 +9,8 @@ const options = {
     term     : '',
     country  : 'jp',
     media    : 'music',
-    entity   : 'song',
-    attribute: 'songTerm',
+    // entity   : 'song',
+    // attribute: 'songTerm',
     limit    : 1,
     lang     : 'ja_jp'
   }
