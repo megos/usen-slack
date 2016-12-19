@@ -4,12 +4,13 @@ const CronJob    = require('cron').CronJob;
 const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
+const settings   = require('./settings');
 
 const usen = new Usen();
 const app  = express();
 
 const job = new CronJob({
-  cronTime: '12 */1 8-17 * * 1-5',
+  cronTime: settings.CRON_TIME,
   onTick  : () => {usen.postNowPlaying();},
   start   : false,
   timeZone: 'Asia/Tokyo'
