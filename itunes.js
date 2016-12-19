@@ -9,22 +9,25 @@ const options = {
     term     : '',
     country  : 'jp',
     media    : 'music',
-    // entity   : 'song',
-    // attribute: 'songTerm',
+    entity   : 'song',
+    attribute: 'songTerm',
     limit    : 1,
-    lang     : 'ja_jp'
+    lang     : 'en_us'
   }
 }
 
 const itunesApi = {
 
-  getArtworkUrl: function(songName) {
+  getArtworkUrl: function(songName, artistName) {
     this.setTerm(songName);
 
     return new Promise((resolve, reject) => {
       request(options)
       .then((json) => {
-        if (json.results.length > 0) {
+        console.log(json);
+        if (json.results.length > 0 &&
+          (json.results[0].artistName.toLowerCase() === artistName.toLowerCase() ||
+            json.results[0].artistName.toLowerCase().replace(/and/g, '&') === artistName.toLowerCase())) {
           resolve(json.results[0].artworkUrl100);
         } else {
           resolve('');
