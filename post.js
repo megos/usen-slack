@@ -6,7 +6,7 @@ const Post = {
 
   message: function(url, text, username) {
     const form = {
-      text    : text,
+      text    : encodeURIComponent(text),
       username: username
     };
     const options = {
@@ -30,7 +30,7 @@ const Post = {
     const form = {
       username: username,
       attachments: [{
-        text     : text,
+        text     : encodeURIComponent(text),
         thumb_url: artworkurl
       }]
     };
