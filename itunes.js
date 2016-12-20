@@ -31,8 +31,7 @@ const itunesApi = {
       request(options)
       .then((json) => {
         if (json.results.length > 0 &&
-          (json.results[0].artistName.toLowerCase() === artistName.toLowerCase() ||
-            json.results[0].artistName.toLowerCase().replace(/and/g, '&') === artistName.toLowerCase())) {
+          (json.results[0].artistName.toLowerCase() === artistName.toLowerCase())) {
           resolve(json.results[0].artworkUrl100);
         } else {
           resolve('');
