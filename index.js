@@ -4,13 +4,14 @@ const CronJob    = require('cron').CronJob;
 const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
+const settings   = require('./settings');
 const io         = require('socket.io').listen(3001);
 
 const usen = new Usen();
 const app  = express();
 
 const job = new CronJob({
-  cronTime: '12 */1 8-17 * * 1-5',
+  cronTime: settings.CRON_TIME,
   onTick  : () => {usen.postNowPlaying();},
   start   : false,
   timeZone: 'Asia/Tokyo'
@@ -26,7 +27,7 @@ usen.getChannelTitle()
   console.log(err);
 });
 
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -34,7 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(3000);
+app.listen(settings.EXPRESS_PORT);
 
 app.post('/usen', (req, res) => {
   console.log(req.body);

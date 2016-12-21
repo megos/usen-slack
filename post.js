@@ -7,8 +7,8 @@ const Post = {
 
   message: function(url, text, username) {
     const form = {
-      text    : text,
-      username: username
+      text    : encodeURIComponent(text),
+      username: encodeURIComponent(username)
     };
     const options = {
       url : url,
@@ -30,9 +30,9 @@ const Post = {
 
   messegeWithAttachment: function(url, artworkurl, text, username) {
     const form = {
-      username: username,
+      username: encodeURIComponent(username),
       attachments: [{
-        text     : text,
+        text     : encodeURIComponent(text),
         thumb_url: artworkurl
       }]
     };
