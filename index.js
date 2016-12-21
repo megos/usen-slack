@@ -30,14 +30,14 @@ usen.getChannelTitle()
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
 app.listen(settings.EXPRESS_PORT);
 
-app.post('/usen', (req, res) => {
+app.post('/usen/api/change', (req, res) => {
   console.log(req.body);
   usen.setBand(req.body.text.slice(0, 1).toUpperCase());
   usen.setChannel(('00' + req.body.text.slice(1)).slice(-2));
@@ -50,14 +50,14 @@ app.post('/usen', (req, res) => {
     console.log(err);
   });
   res.contentType('application/json');
-  res.send('{"text": "OK"}');
+  res.send(JSON.stringify({text: 'OK'}));
 });
 
-app.get('/usen/now', (req, res) => {
+app.get('/usen/api/now', (req, res) => {
   res.send(usen.getNowPlaying());
 });
 
-app.get('/usen/channel', (req, res) => {
+app.get('/usen/api/channel', (req, res) => {
   res.send(usen.getChannelName());
 });
 
