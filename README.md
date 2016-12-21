@@ -4,7 +4,7 @@ usen nowplaying bot for slack/mattermost
 ### ScreenShot
 
 #### slack
-![slack](wiki/images/screenshot_slack.png)
+![slack](https://github.com/megos/usen-slack/wiki/images/screenshot_slack.png)
 
 ### Requirement
 - node.js 6 higher
