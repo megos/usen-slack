@@ -20,8 +20,8 @@ $ npm start
 2. Create a copy of [settings.sample.js](settings.sample.js) called `settings.js`
 3. Replace `your slack incoming webhook url` in your new `settings.js` file with your own slack/mattermost webhook url.
 
-### Licence
-- [MIT](LICENCE)
+### License
+- [MIT](LICENSE)
 
 ### Author
 - [megos](https://github.com/megos)
