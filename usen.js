@@ -8,8 +8,8 @@ const itunes   = require('./itunes');
 
 const Usen = function() {
   this.param = {
-    npband: 'A',
-    npch  : '44',
+    npband: 'B',
+    npch  : '27',
     nppage: 'yes',
     _     : ''
   };
@@ -33,8 +33,8 @@ Usen.prototype = {
     })
     .then((np) => {
        if (np !== this.nowPlaying) {
-        const info = np.split('／');
-        itunes.getArtworkUrl(info[0].replace(/^\(([0-9]+位|注目曲)\)/, '').trim() + ',' + info[1].trim())
+        const info = np.split(' ／ ');
+        itunes.getArtworkUrl(info[0].replace(/^\(([0-9]+位|注目曲)\)/, '').trim().replace(/'/g, "\\'"), info[1].trim())
         .then((url) => {
           if (url !== '') {
             post.messegeWithAttachment(this.webhookUrl, url, np, this.channelName);
