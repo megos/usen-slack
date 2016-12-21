@@ -8,8 +8,8 @@ const itunes   = require('./itunes');
 
 const Usen = function() {
   this.param = {
-    npband: 'B',
-    npch  : '27',
+    npband: settings.BAND,
+    npch  : settings.CHANNEL,
     nppage: 'yes',
     _     : ''
   };

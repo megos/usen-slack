@@ -45,7 +45,6 @@ const Post = {
     return new Promise((resolve, reject) => {
       request.post(options)
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((err) => {
