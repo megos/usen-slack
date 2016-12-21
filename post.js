@@ -1,7 +1,6 @@
 'use strict'
 
 const request = require('request-promise');
-const socket  = require('socket.io-client')('http://localhost:3001');
 
 const Post = {
 
@@ -15,7 +14,6 @@ const Post = {
       form: 'payload=' + JSON.stringify(form),
       json: true
     };
-    this.sendSocketIO(username, text);
     return new Promise((resolve, reject) => {
       request.post(options)
       .then((result) => {
@@ -41,7 +39,6 @@ const Post = {
       form: 'payload=' + JSON.stringify(form),
       json: true
     };
-    this.sendSocketIO(username, text);
     return new Promise((resolve, reject) => {
       request.post(options)
       .then((result) => {
@@ -51,13 +48,6 @@ const Post = {
         console.error(err);
         reject();
       });
-    });
-  },
-
-  sendSocketIO: function(ch, np) {
-    socket.json.emit('usen', {
-      channel   : ch,
-      nowplaying: np
     });
   }
 }
