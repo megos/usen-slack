@@ -5,6 +5,7 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
 const settings   = require('./settings');
+const io         = require('socket.io').listen(3001);
 
 const usen = new Usen();
 const app  = express();
@@ -58,4 +59,20 @@ app.get('/usen/now', (req, res) => {
 
 app.get('/usen/channel', (req, res) => {
   res.send(usen.getChannelName());
+});
+
+
+io.sockets.on('connection', (socket) => {
+
+  io.sockets.json.emit('usen', {
+    channel   : usen.channelName,
+    nowplaying: usen.nowPlaying
+  });
+
+  socket.on('usen', (data) => {
+    io.sockets.json.emit('usen', {
+      channel: data.channel,
+      nowplaying: data.nowplaying
+    });
+  });
 });
