@@ -1,6 +1,7 @@
 'use strict'
 
-const request = require('request-promise');
+const request  = require('request-promise');
+const settings = require('./settings');
 
 const options = {
   url : 'https://itunes.apple.com/search',
@@ -11,7 +12,7 @@ const options = {
     media    : 'music',
     entity   : 'song',
     attribute: 'songTerm',
-    limit    : 1,
+    limit    : settings.ITUNES_LIMIT,
     lang     : 'en_us'
   }
 }
@@ -30,12 +31,12 @@ const itunesApi = {
     return new Promise((resolve, reject) => {
       request(options)
       .then((json) => {
-        if (json.results.length > 0 &&
-          (json.results[0].artistName.toLowerCase() === artistName.toLowerCase())) {
-          resolve(json.results[0].artworkUrl100);
-        } else {
-          resolve('');
+        for (const result of json.results) {
+          if (result.artistName.toLowerCase() === artistName.toLowerCase()) {
+            resolve(result.artworkUrl100);
+          }
         }
+        resolve('');
       })
       .catch((err) => {
         console.error(err);

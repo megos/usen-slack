@@ -26,7 +26,7 @@ usen.getChannelTitle()
   console.log(err);
 });
 
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(3000);
+app.listen(settings.EXPRESS_PORT);
 
 app.post('/usen', (req, res) => {
   console.log(req.body);
