@@ -5,7 +5,7 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
 const settings   = require('./settings');
-const io         = require('socket.io').listen(3001);
+const io         = require('socket.io').listen(settings.SOCKETIO_PORT);
 
 const usen = new Usen();
 const app  = express();
