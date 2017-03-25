@@ -2,7 +2,7 @@
 
 const client   = require('cheerio-httpcli');
 const request  = require('request');
-const config  = require('config');
+const config   = require('config');
 const post     = require('./post');
 const itunes   = require('./itunes');
 

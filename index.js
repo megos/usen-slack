@@ -4,7 +4,7 @@ const CronJob    = require('cron').CronJob;
 const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
-const config   = require('config');
+const config     = require('config');
 
 const usen = new Usen();
 const app  = express();
