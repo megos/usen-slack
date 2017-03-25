@@ -1,7 +1,7 @@
 'use strict'
 
 const request  = require('request-promise');
-const settings = require('./settings');
+const config = require('config');
 
 const options = {
   url : 'https://itunes.apple.com/search',
@@ -12,7 +12,7 @@ const options = {
     media    : 'music',
     entity   : 'song',
     attribute: 'songTerm',
-    limit    : settings.ITUNES_LIMIT,
+    limit    : config.itunesLimit,
     lang     : 'en_us'
   }
 }

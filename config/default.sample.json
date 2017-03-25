@@ -1,0 +1,9 @@
+{
+  "expressPort": 3000,
+  "cronTime": "00 */3 * * * *",
+  "botName": "usen-bot",
+  "webhookUrl": "your slack incoming webhook url",
+  "band": "your selected usen band",
+  "channel": "your selected usen channel",
+  "itunesLimit": 1
+}
