@@ -4,7 +4,8 @@ logs
 *.log
 npm-debug.log*
 
-settings.js
+config/default.json
+config/production.json
 
 # Runtime data
 pids

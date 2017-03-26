@@ -4,13 +4,13 @@ const CronJob    = require('cron').CronJob;
 const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
-const settings   = require('./settings');
+const config     = require('config');
 
 const usen = new Usen();
 const app  = express();
 
 const job = new CronJob({
-  cronTime: settings.CRON_TIME,
+  cronTime: config.cronTime,
   onTick  : () => {usen.postNowPlaying();},
   start   : false,
   timeZone: 'Asia/Tokyo'
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(settings.EXPRESS_PORT);
+app.listen(config.expressPort);
 
 app.post('/usen/api/change', (req, res) => {
   console.log(req.body);

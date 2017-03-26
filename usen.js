@@ -2,20 +2,20 @@
 
 const client   = require('cheerio-httpcli');
 const request  = require('request');
-const settings = require('./settings');
+const config   = require('config');
 const post     = require('./post');
 const itunes   = require('./itunes');
 
 const Usen = function() {
   this.param = {
-    npband: settings.BAND,
-    npch  : settings.CHANNEL,
+    npband: config.band,
+    npch  : config.channel,
     nppage: 'yes',
     _     : ''
   };
   this.nowPlaying  = '';
-  this.botName     = settings.BOT_NAME;
-  this.webhookUrl  = settings.WEB_HOOK_URL;
+  this.botName     = config.botName;
+  this.webhookUrl  = config.webhookUrl;
   this.channelName = '';
 };
 

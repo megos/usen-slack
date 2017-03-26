@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "cheerio-httpcli": "^0.6.11",
+    "config": "^1.25.1",
     "cron": "^1.2.1",
     "express": "^4.15.2",
     "request": "^2.81.0",
