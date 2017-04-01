@@ -4,14 +4,14 @@ const CronJob    = require('cron').CronJob;
 const express    = require('express');
 const bodyParser = require('body-parser');
 const Usen       = require('./usen');
-const settings   = require('./settings');
+const config     = require('config');
 const io         = require('socket.io').listen(settings.SOCKETIO_PORT);
 
 const usen = new Usen();
 const app  = express();
 
 const job = new CronJob({
-  cronTime: settings.CRON_TIME,
+  cronTime: config.cronTime,
   onTick  : () => {usen.postNowPlaying();},
   start   : false,
   timeZone: 'Asia/Tokyo'
@@ -35,7 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(settings.EXPRESS_PORT);
+app.listen(config.expressPort);
 
 app.post('/usen/api/change', (req, res) => {
   console.log(req.body);
@@ -59,20 +59,4 @@ app.get('/usen/api/now', (req, res) => {
 
 app.get('/usen/api/channel', (req, res) => {
   res.send(usen.getChannelName());
-});
-
-
-io.sockets.on('connection', (socket) => {
-
-  io.sockets.json.emit('usen', {
-    channel   : usen.channelName,
-    nowplaying: usen.nowPlaying
-  });
-
-  socket.on('usen', (data) => {
-    io.sockets.json.emit('usen', {
-      channel: data.channel,
-      nowplaying: data.nowplaying
-    });
-  });
 });
