@@ -34,7 +34,7 @@ Usen.prototype = {
     .then((np) => {
        if (np !== this.nowPlaying) {
         const info = np.split(' ／ ');
-        itunes.getArtworkUrl(info[0].replace(/^\(([0-9]+位|注目曲)\)/, '').trim().replace(/'/g, "\\'"), info[1].trim())
+        itunes.getArtworkUrl(info[0].replace(/^\(([0-9]+(位|)|注目曲)\)/, '').trim().replace(/'/g, "\\'"), info[1].trim())
         .then((url) => {
           if (url !== '') {
             post.messegeWithAttachment(this.webhookUrl, url, np, this.channelName);
