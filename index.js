@@ -26,6 +26,9 @@ usen.getChannelTitle()
   console.log(err);
 });
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
