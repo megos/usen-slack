@@ -1,6 +1,9 @@
 'use strict'
 
 const request = require('request-promise');
+const config  = require('config');
+const socket  = require('socket.io-client')('http://localhost:' + config.socketioPort);
+
 
 const Post = {
 
