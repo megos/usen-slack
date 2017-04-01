@@ -57,6 +57,9 @@ const Post = {
   },
 
   sendSocketIO: function(ch, np, artworkurl) {
+    if (artworkurl === undefined) {
+      artworkurl = '';
+    }
     socket.json.emit('usen', {
       channel   : ch,
       nowplaying: np,

@@ -65,13 +65,15 @@ io.sockets.on('connection', (socket) => {
 
   io.sockets.json.emit('usen', {
     channel   : usen.channelName,
-    nowplaying: usen.nowPlaying
+    nowplaying: usen.nowPlaying,
+    artworkurl: ''
   });
 
   socket.on('usen', (data) => {
     io.sockets.json.emit('usen', {
       channel: data.channel,
-      nowplaying: data.nowplaying
+      nowplaying: data.nowplaying,
+      artworkurl: data.artworkurl
     });
   });
 });
