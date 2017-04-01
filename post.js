@@ -14,6 +14,7 @@ const Post = {
       form: 'payload=' + JSON.stringify(form),
       json: true
     };
+    this.sendSocketIO(username, text);
     return new Promise((resolve, reject) => {
       request.post(options)
       .then((result) => {
@@ -39,6 +40,7 @@ const Post = {
       form: 'payload=' + JSON.stringify(form),
       json: true
     };
+    this.sendSocketIO(username, text, artworkurl);
     return new Promise((resolve, reject) => {
       request.post(options)
       .then((result) => {
@@ -48,6 +50,14 @@ const Post = {
         console.error(err);
         reject();
       });
+    });
+  },
+
+  sendSocketIO: function(ch, np, artworkurl) {
+    socket.json.emit('usen', {
+      channel   : ch,
+      nowplaying: np,
+      artworkurl: artworkurl
     });
   }
 }
